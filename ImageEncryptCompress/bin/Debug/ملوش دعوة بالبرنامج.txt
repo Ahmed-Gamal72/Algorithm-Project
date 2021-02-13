@@ -1,0 +1,125 @@
+public static void decomprassion(ref RGBPixel[,] ImageMatrix)
+         {
+             comprass Comprassion1 = new comprass("Friends.txt");
+             Comprassion1.load();
+             List<List<bool>> fil = Comprassion1.ob;
+             int t1=0;
+            
+             using (StreamWriter writetext = new StreamWriter("temp.txt"))
+             {
+                 while (t1 < Comprassion1.ob.Count)
+                 {
+                 writetext.WriteLine(Comprassion1.ob[t1]);
+                 t1++;
+                  }
+                 writetext.WriteLine(t1);
+             }
+         
+             List<int> red_v = new List<int>();
+             List<int> green_v = new List<int>();
+             List<int> blue_v = new List<int>();
+             List<string> red_code = new List<string>();
+             List<string> green_code = new List<string>();
+             List<string> blue_code = new List<string>();
+             string line;
+             System.IO.StreamReader file =
+                 new System.IO.StreamReader("code_red.txt");
+             while ((line = file.ReadLine()) != null)
+             {
+                 red_v.Add(int.Parse(line));
+                 line = file.ReadLine();
+                 red_code.Add(line);
+             }
+             file.Close();
+             System.IO.StreamReader file1 =
+                new System.IO.StreamReader("code_green.txt");
+             while ((line = file1.ReadLine()) != null)
+             {
+                 green_v.Add(int.Parse(line));
+                 line = file1.ReadLine();
+                 green_code.Add(line);
+             }
+             file1.Close();
+             System.IO.StreamReader file2 =
+               new System.IO.StreamReader("code_blue.txt");
+             while ((line = file2.ReadLine()) != null)
+             {
+                 blue_v.Add(int.Parse(line));
+                 line = file2.ReadLine();
+                 blue_code.Add(line);
+             }
+             file2.Close();
+             int z=0;
+
+             for (int i = 0; i < ImageMatrix.GetLength(0); i++)
+                 for (int f = 0; f < ImageMatrix.GetLength(1); f++)
+                 {
+                     for(int u=0;u<red_code.Count;u++)
+                     {
+                         string temp = "";
+                         List<bool> temp1 = fil[z];
+                         for (int r = 0; r < temp1.Count;r++)
+                         {
+                             if(temp1[r]==true)
+                             {
+                                 temp=temp+'1';
+                             }
+                             else
+                             {
+                                 temp = temp + '0';
+                             }
+                          }
+                             if (temp == red_code[u])
+                             {
+                                 ImageMatrix[i, f].red = (byte)red_v[u];
+                                 z++;
+                                 break;
+                             }
+                     }
+                     for (int u = 0; u < green_code.Count; u++)
+                     {
+                         string temp = "";
+                         List<bool> temp1 = fil[z];
+                         for (int r = 0; r < temp1.Count; r++)
+                         {
+                             if (temp1[r] == true)
+                             {
+                                 temp = temp + '1';
+                             }
+                             else
+                             {
+                                 temp = temp + '0';
+                             }
+                         }
+                         if (temp == green_code[u])
+                         {
+                             ImageMatrix[i, f].green = (byte)green_v[u];
+                             z++;
+                             break;
+                         }
+                     }
+                     for (int u = 0; u < blue_code.Count; u++)
+                     {
+                         string temp = "";
+                         List<bool> temp1 = fil[z];
+                         for (int r = 0; r < temp1.Count; r++)
+                         {
+                             if (temp1[r] == true)
+                             {
+                                 temp = temp + '1';
+                             }
+                             else
+                             {
+                                 temp = temp + '0';
+                             }
+                         }
+                         if (temp == blue_code[u])
+                         {
+                             ImageMatrix[i, f].blue = (byte)blue_v[u];
+                             z++;
+                             break;
+                         }
+                     }
+                     
+                 }
+         } 
